@@ -1,0 +1,53 @@
+# Titanic Survival Predictor (with Interactive Loop)
+
+This is a clean, end-to-end machine learning project built on the classic Titanic dataset. The goal wasn't just to chase a high accuracy score, but to build a reliable workflow using Scikit-Learn pipelines to handle all the messy preprocessing without data leakage.
+
+I also added an interactive terminal loop at the end of the script so you can input custom passenger data and see the model's survival predictions in real-time.
+
+---
+
+## What this project does
+
+1. **Cleans the Data:** Automatically drops columns that don't help the model generalize (like names, ticket numbers, and cabin info) to prevent overfitting.
+2. **Handles Missing Values & Scaling:** Uses `ColumnTransformer` to automatically impute missing ages/fares and scale numerical data, while one-hot encoding categorical features like sex and embarkation port.
+3. **Optimizes for Class Imbalance:** Evaluated models using Stratified 3-Fold Cross-Validation, focusing on the **Macro F1-Score** (0.85) to ensure the model performs well across all classes, not just the majority.
+
+---
+
+## Model Performance
+
+I tested both a Stochastic Gradient Descent (SGD) Classifier and a Random Forest Classifier. Random Forest handled the categorical splits best.
+
+* **SGD Classifier (Macro F1):** 0.850
+* **Random Forest Classifier (Macro F1):** 0.852
+
+*Note: My initial KNN baseline hit a perfect 1.0 training score due to overfitting ($K=1$), which was resolved by switching to the tuned Random Forest boundary.*
+
+---
+
+## Try it out
+
+The script includes a `while` loop that lets you test your own scenarios in the terminal.
+
+To run it:
+1. Clone the repo.
+2. Make sure you have pandas and scikit-learn installed (`pip install pandas scikit-learn`).
+3. Run the script and follow the prompts.
+
+### Terminal Example:
+```text
+=== Titanic Survival Predictor ===
+Enter passenger details below. Type 'q' at any prompt to quit.
+
+Passenger Class (1, 2, or 3): 1
+Sex (male or female): female
+Age (e.g., 25): 22
+Number of Siblings/Spouses aboard: 0
+Number of Parents/Children aboard: 0
+Ticket Fare (e.g., 50.0): 71.25
+Port of Embarkation (C, Q, or S): C
+
+===================================
+🔮 Result: SURVIVED! 🎉
+📊 Survival Probability: 94.6%
+===================================
