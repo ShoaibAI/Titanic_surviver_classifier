@@ -2,37 +2,37 @@
 
 This is a clean, end-to-end machine learning project built on the classic Titanic dataset. The goal wasn't just to chase a high accuracy score, but to build a reliable workflow using Scikit-Learn pipelines to handle all the messy preprocessing without data leakage.
 
-Instead of a basic command-line script, this version includes an inline **Gradio** web dashboard so you can easily tweak passenger inputs via sliders and dropdowns right inside a Kaggle or Jupyter notebook.
+Instead of a basic command-line script, this version includes an inline "Gradio" web dashboard so you can easily tweak passenger inputs via sliders and dropdowns right inside a Kaggle or Jupyter notebook.
 
 ---
 
 ## What this project does
 
-1. **Cleans the Data:** Automatically drops columns that don't help the model generalize (like names, ticket numbers, and cabin info) to prevent overfitting.
-2. **Handles Missing Values & Scaling:** Uses `ColumnTransformer` to automatically impute missing ages/fares and scale numerical data, while one-hot encoding categorical features like sex and embarkation port.
-3. **Optimizes for Class Imbalance:** Evaluated models using Stratified 3-Fold Cross-Validation, focusing on the **Macro F1-Score** (0.85) to ensure the model performs well across all classes, not just the majority.
+1. Cleans the Data: Automatically drops columns that don't help the model generalize (like names, ticket numbers, and cabin info) to prevent overfitting.
+2. Handles Missing Values & Scaling: Uses 'ColumnTransformer' to automatically impute missing ages/fares and scale numerical data, while one-hot encoding categorical features like sex and embarkation port.
+3. Optimizes for Class Imbalance: Evaluated models using Stratified 3-Fold Cross-Validation, focusing on the "Macro F1-Score" to ensure the model performs well across all classes, not just the majority.
 
 ---
 
 ## Model Performance
 
-I tested both a Stochastic Gradient Descent (SGD) Classifier and a Random Forest Classifier. Random Forest handled the categorical splits best.
+I evaluated two different classification architectures using identical pipeline preprocessing to see how they handled the survival boundaries:
 
-* **SGD Classifier (Macro F1):** 0.850
-* **Random Forest Classifier (Macro F1):** 0.852
+* SGD Classifier (Macro F1): '0.60'
+* Random Forest Classifier (Macro F1): '0.85'
 
-*Note: My initial KNN baseline hit a perfect 1.0 training score due to overfitting ($K=1$), which was resolved by switching to the tuned Random Forest boundary.*
+*Note on the scores: The Stochastic Gradient Descent (SGD) classifier struggled to capture the non-linear patterns of the dataset (like specific age groups combined with ticket classes). Switching to a tuned **Random Forest Classifier** completely resolved this, allowing the model to split on complex feature interactions and driving the F1-score up to a stable '0.85'.
 
 ---
 
 ## The App Interface
 
-The project uses Gradio to spin up an interactive web UI. If you are running this in a Kaggle notebook, setting `inline=True` embeds the entire dashboard directly into your cell output.
+The project uses Gradio to spin up an interactive web UI. If you are running this in a Kaggle notebook, setting 'inline=True' embeds the entire dashboard directly into your cell output.
 
 ### Features included in the UI:
-* Dropdowns for categorical selections (`Sex`, `Passenger Class`).
-* Interactive sliders for continuous variables (`Age`, `Ticket Fare`).
-* Immediate text output displaying absolute survival classification (`SURVIVED` or `DIED`) alongside exact percentage probabilities from the Random Forest model.
+* Dropdowns for categorical selections ('Sex', 'Passenger Class').
+* Interactive sliders for continuous variables ('Age', 'Ticket Fare').
+* Immediate text output displaying absolute survival classification ('SURVIVED' or 'DIED') alongside exact percentage probabilities from the Random Forest model.
 
 ---
 
